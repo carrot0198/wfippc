@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wfippc.demo.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="User">
+		<id column="userid" jdbcType="VARCHAR" property="userId" />
+		<result column="username" jdbcType="VARCHAR"
+			property="userName" />
+		<result column="password" jdbcType="VARCHAR"
+			property="password" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="dept" jdbcType="TIMESTAMP" property="dept" />
+		<result column="lastlogindate" jdbcType="TIMESTAMP"
+			property="lastLoginDate" />
+		<result column="lastloginip" jdbcType="VARCHAR"
+			property="lastLoginIp" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="retrytimes" jdbcType="NUMERIC"
+			property="retryTimes" />
+	</resultMap>
+	<resultMap id="UserRoleMap" type="Role">
+		<id column="roleid" jdbcType="VARCHAR" property="roleId" />
+		<result column="rolename" jdbcType="VARCHAR"
+			property="roleName" />
+		<result column="status" jdbcType="VARCHAR"
+			property="status" />
+		<result column="statusdate" jdbcType="TIMESTAMP" property="statusdate" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		userid,username,password,mobile,email,dept,lastlogindate,lastloginip,status,retrytimes
+	</sql>
+	<sql id="userRoleList">
+		roleid,rolename,status,statusdate 
+	</sql>
+	<select id="getRoles" resultMap="UserRoleMap">
+		select
+		<include refid="userRoleList" />
+		from v_user_role
+	</select>
+	<select id="queryAllUsers" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_user
+	</select>
+	<select id="queryUserById" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_user where userid = #{zxUuid,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteUser" parameterType="java.lang.String">
+		delete from tb_user
+		where userid = #{userId,jdbcType=VARCHAR}
+	</delete>
+	<!-- <delete id="deleteByPrimaryKeyList" parameterType="list"> delete from 
+		zcdc_zx where zx_uuid in <foreach collection="list" index="index" item="item" 
+		open="(" separator="," close=")"> #{item} </foreach> </delete> -->
+	<insert id="addUser" parameterType="User">
+		insert into tb_user (
+		<include refid="Base_Column_List" />
+		)
+		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{dept,jdbcType=VARCHAR},
+		#{lastLoginDate,jdbcType=TIMESTAMP}, #{lastLoginDate,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},
+		#{retryTimes,jdbcType=NUMERIC})
+	</insert>
+	<update id="modifyUser" parameterType="User">
+		update tb_user
+		<set>
+			<if test="userName != null">
+				username = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="dept != null">
+				dept = #{dept,jdbcType=VARCHAR},
+			</if>
+			<if test="lastLoginDate != null">
+				lastLoginDate = #{lastLoginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="retryTimes != null">
+				retryTimes = #{retryTimes,jdbcType=NUMERIC},
+			</if>
+		</set>
+		where userId = #{userId,jdbcType=VARCHAR}
+	</update>
+</mapper>
