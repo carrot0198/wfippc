@@ -32,7 +32,7 @@ public class CustomUserService implements UserDetailsService { //自定义UserDe
         for(Role role:um.getRoles(user.getUserId()))
         {
             authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-            //System.out.println(role.getRoleName());
+//            System.out.println("111111111111111111111111111111"+userId);
         }
         return new org.springframework.security.core.userdetails.User(user.getUserId(),
                 user.getPassword(), authorities);

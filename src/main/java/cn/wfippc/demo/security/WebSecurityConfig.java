@@ -29,24 +29,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// 解决静态资源被拦截的问题
-		web.ignoring().antMatchers("/css/**");
-		web.ignoring().antMatchers("/js/**");
-		web.ignoring().antMatchers("/images/**");
-		web.ignoring().antMatchers("/lib/**");
-		web.ignoring().antMatchers("/fonts/**");
-		web.ignoring().antMatchers("/lang/**");
-		web.ignoring().antMatchers("/login/**");
-		web.ignoring().antMatchers("/login.html");
-		// 解决服务注册url被拦截的问题
-		web.ignoring().antMatchers("/swagger-resources/**");
-		web.ignoring().antMatchers("/v2/**");
-		web.ignoring().antMatchers("/**/*.json");
+//		web.ignoring().antMatchers("/css/**");
+//		web.ignoring().antMatchers("/js/**");
+//		web.ignoring().antMatchers("/images/**");
+//		web.ignoring().antMatchers("/lib/**");
+//		web.ignoring().antMatchers("/fonts/**");
+//		web.ignoring().antMatchers("/lang/**");
+//		web.ignoring().antMatchers("/login/**");
+//		web.ignoring().antMatchers("/login.html");
+//		// 解决服务注册url被拦截的问题
+//		web.ignoring().antMatchers("/swagger-resources/**");
+//		web.ignoring().antMatchers("/v2/**");
+//		web.ignoring().antMatchers("/**/*.json");
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserService()); //user Details Service验证
-
+        System.out.println("444444444444444444444444"+auth.getDefaultUserDetailsService().loadUserByUsername("admin"));
     }
 
 	@Override
@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/index.html")
-                .failureUrl("/login?error")
+                .failureUrl("/error")
                 .permitAll() //登录页面用户任意访问
                 .and()
                 .logout().permitAll(); //注销行为任意访问
