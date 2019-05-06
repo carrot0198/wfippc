@@ -21,8 +21,12 @@ public class MyAuthenctiationFailureHandler extends SimpleUrlAuthenticationFailu
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
+    	Object username = request.getAttribute("SPRING_SECURITY_LAST_USERNAME_KEY");
+    	System.out.println(username);
+        Object username2 = request.getAttribute("SPRING_SECURITY_LAST_USERNAME");  // deprecated
+        System.out.println(username2);
         log.info("登录失败");
-        JSONObject res = new JSONObject();
+    	JSONObject res = new JSONObject();
         res.put("success",false);
         res.put("msg","登录失败,请检查账号密码是否正确");
         response.setStatus(500);

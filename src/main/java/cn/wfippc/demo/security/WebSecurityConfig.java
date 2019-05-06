@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserService()); //user Details Service验证
-        System.out.println("444444444444444444444444"+auth.getDefaultUserDetailsService().loadUserByUsername("admin"));
+//        System.out.println("444444444444444444444444"+auth.getDefaultUserDetailsService().loadUserByUsername("admin"));
     }
 
 	@Override
@@ -55,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated() //任何请求,登录后可以访问
                 .and()
                 .formLogin()
-                .loginPage("/index.html")
-                .failureUrl("/error")
+                .loginPage("/index.html").usernameParameter("username").passwordParameter("password")
+                .failureHandler(myAuthenctiationFailureHandler) // 自定义登录失败处理
                 .permitAll() //登录页面用户任意访问
                 .and()
                 .logout().permitAll(); //注销行为任意访问
